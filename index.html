@@ -4,147 +4,60 @@
 <meta charset="UTF-8">
 <title>耀嬷成分大测试</title>
 <style>
-  /* 网页的化妆品（CSS） */
-  body {
-    font-family: 'Microsoft YaHei', sans-serif;
-    background-color: #ffe4e1; /* 换了一个浅粉色的背景，更符合气氛 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  .container {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    text-align: center;
-    width: 350px; /* 稍微加宽了一点点 */
-  }
-  button {
-    display: block; /* 让按钮竖着排列 */
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    cursor: pointer;
-    background-color: #ff69b4; /* 亮粉色按钮 */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: 0.2s; /* 点击会有个小动画效果 */
-  }
-  button:hover {
-    background-color: #ff1493; /* 鼠标放上去颜色变深 */
-  }
-  .start-btn {
-    background-color: #ff4500; /* 开始按钮用显眼的颜色 */
-  }
-  /* 一开始先隐藏问答和结果界面 */
+  body { font-family: 'Microsoft YaHei', sans-serif; background-color: #ffe4e1; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+  .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; width: 350px; }
+  button { display: block; width: 100%; padding: 12px; margin: 10px 0; cursor: pointer; background-color: #ff69b4; color: white; border: none; border-radius: 8px; font-size: 15px; }
+  button:hover { background-color: #ff1493; }
+  .start-btn { background-color: #ff4500; }
   #quiz, #result { display: none; }
   #questionText { margin-bottom: 20px; color: #333; }
   #resultText { font-weight: bold; color: #d2691e; line-height: 1.6; text-align: left; padding: 10px;}
 </style>
 </head>
 <body>
-
 <div class="container">
   <div id="start">
     <h2>耀嬷成分大测试</h2>
-    <p>你是一个耀嬷，接下来将详细测试你究竟是一个怎样的耀嬷……<br>准备好直面真实的自己了吗？</p>
-    <button class="start-btn" onclick="startQuiz()">Start (开始测试)</button>
+    <p>你是一个耀嬷，接下来将详细测试你是一个怎样的耀嬷</p>
+    <button class="start-btn" onclick="startQuiz()">Start</button>
   </div>
-
   <div id="quiz">
-    <h3 id="questionText">问题加载中...</h3>
-    <button id="btnA" onclick="answer('A')">选项 A</button>
-    <button id="btnB" onclick="answer('B')">选项 B</button>
-    <button id="btnC" onclick="answer('C')">选项 C</button>
+    <h3 id="questionText"></h3>
+    <button id="btnA" onclick="answer('A')"></button>
+    <button id="btnB" onclick="answer('B')"></button>
+    <button id="btnC" onclick="answer('C')"></button>
   </div>
-
   <div id="result">
-    <h2>最终结果：</h2>
-    <div id="resultText">结果加载中...</div>
-    <button class="start-btn" style="margin-top:20px;" onclick="location.reload()">不信，再测一次！</button>
+    <h2>测试结果：</h2>
+    <div id="resultText"></div>
+    <button class="start-btn" style="margin-top:20px;" onclick="location.reload()">再测一次</button>
   </div>
 </div>
-
 <script>
-  // 网页的大脑（JavaScript）
-
-  // 我为你设计的4道题（A代表辱，B代表淫，C代表萌）
   var questions = [
-    { 
-      q: "1. 当你看到王耀的新图/新立绘时，你的第一反应是？", 
-      aA: "穿这么严实什么意思？感觉像欲擒故纵。", 
-      aB: "卧槽裤子爆！让我看看里面穿了什么，呵呵……",
-      aC: "宝宝！乖宝宝！亲亲抱抱举高高！"
-    },
-    { 
-      q: "2. 如果你可以和王耀共度一天，你会带他去做什么？", 
-      aA: "故意带他去他讨厌的地方，看他生气又拿你没办法的样子。", 
-      aB: "直接拉进小黑屋，门一锁，开始付费内容。",
-      aC: "去游乐园吃棉花糖，给他买好多漂亮的小衣服打扮他。"
-    },
-    { 
-      q: "3. 当王耀不理你的时候，你会怎么做？", 
-      aA: "在网上发千字长文痛骂他，其实心里急得要死。", 
-      aB: "马上开始思考出他被绑起来强制理我的100种姿势。",
-      aC: "伤心地捏着他的棉花娃娃掉眼泪，反思自己哪里做错了。"
-    },
-    { 
-      q: "4. 在你心里，王耀对你来说究竟是什么？", 
-      aA: "一个让人烦躁，但又忍不住关注的人。", 
-      aB: "绝世尤物，只想看他被xxoo。",
-      aC: "需要我用一生去呵护的娇娇小宝贝。"
-    }
+    { q: "1. 当你看到王耀的新图/新立绘时，你的第一反应是？", aA: "又穿这么严实？这老东西真是欠教训了！", aB: "裤子飞飞！让我看看里面穿了什么，嘿嘿嘿……", aC: "宝宝！乖宝宝！亲亲抱抱举高高！" },
+    { q: "2. 如果你可以和王耀共度一天，你会带他去做什么？", aA: "故意带他去他讨厌的地方，看他气急败坏又无可奈何的样子。", aB: "直接拉进小黑屋，门一锁，接下来就是付费内容了。", aC: "去游乐园吃棉花糖，给他买好多漂亮的小衣服打扮他。" },
+    { q: "3. 当王耀不理你的时候，你会怎么做？", aA: "在网上发千字长文痛骂他，其实心里急得要死。", aB: "脑补出他被绑起来强制理我的100种姿势。", aC: "伤心地捏着他的棉花娃娃掉眼泪，反思自己哪里做错了。" },
+    { q: "4. 在你心里，王耀对你来说究竟是什么？", aA: "一个嘴硬欠收拾，但又忍不住关注的家伙。", aB: "世界上最美味的绝世大餐，只想一口吃掉。", aC: "需要我用一生去呵护的娇娇小宝贝。" }
   ];
-
-  var currentQuestion = 0; 
-  // 记录三种属性的得分
-  var scoreA = 0; // 辱追分
-  var scoreB = 0; // 淫追分
-  var scoreC = 0; // 萌追分
-
-  // 开始测试
-  function startQuiz() {
-    document.getElementById("start").style.display = "none"; 
-    document.getElementById("quiz").style.display = "block"; 
-    showQuestion(); 
-  }
-
-  // 显示题目
+  var currentQuestion = 0, scoreA = 0, scoreB = 0, scoreC = 0;
+  function startQuiz() { document.getElementById("start").style.display = "none"; document.getElementById("quiz").style.display = "block"; showQuestion(); }
   function showQuestion() {
     if (currentQuestion < questions.length) {
       document.getElementById("questionText").innerText = questions[currentQuestion].q;
       document.getElementById("btnA").innerText = questions[currentQuestion].aA;
       document.getElementById("btnB").innerText = questions[currentQuestion].aB;
       document.getElementById("btnC").innerText = questions[currentQuestion].aC;
-    } else {
-      showResult(); // 答完4题，计算结果
-    }
+    } else { showResult(); }
   }
-
-  // 记录用户的选择
   function answer(choice) {
-    if (choice === 'A') scoreA++;
-    if (choice === 'B') scoreB++;
-    if (choice === 'C') scoreC++;
-    
-    currentQuestion++; 
-    showQuestion(); 
+    if (choice === 'A') scoreA++; if (choice === 'B') scoreB++; if (choice === 'C') scoreC++;
+    currentQuestion++; showQuestion();
   }
-
-  // 计算并显示结果
   function showResult() {
-    document.getElementById("quiz").style.display = "none"; 
-    document.getElementById("result").style.display = "block"; 
-
-    var resTitle = "";
-    var resDesc = "";
-
-    // 判断逻辑：寻找最高分，或者平局（混合情况）
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("result").style.display = "block";
+    var resTitle = "", resDesc = "";
     if (scoreA === 2 && scoreB === 2) {
       resTitle = "【4. 辱淫双修型耀嬷】";
       resDesc = "你一边嘴上骂骂咧咧说他“欠收拾”，一边脑子里已经把他扒得连底裤都不剩了。你最喜欢看他被欺负到眼角泛红的样子，属于是把“打是亲骂是爱”发挥到了变态的极致！";
@@ -164,8 +77,6 @@
       resTitle = "【3. 萌追型耀嬷】";
       resDesc = "你觉得他真的很可爱，你拥有了世界上最可爱的小宝贝娃娃！每天只想给他塞好吃的、穿漂亮衣服，妈妈爱你！";
     }
-
-    // 把标题和文案拼在一起显示出来
     document.getElementById("resultText").innerHTML = "<span style='color:red; font-size:18px;'>" + resTitle + "</span><br><br>" + resDesc;
   }
 </script>
